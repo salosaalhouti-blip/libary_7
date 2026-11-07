@@ -12,7 +12,7 @@ class StaffUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return True;
     }
 
     /**
@@ -23,7 +23,11 @@ class StaffUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            "name"         => "sometimes|required|string", // تصحيح =>
+            "email"        => "sometimes|required|email|unique:staff,email," . $staff->id,
+            "password"     => "sometimes|required|string|min:8", // تصحيح min:8
+            "role"         => "sometimes|required|string",
+            "phone_number" => "sometimes|required|string|unique:staff,phone_number," . $staff->id,
         ];
     }
 }

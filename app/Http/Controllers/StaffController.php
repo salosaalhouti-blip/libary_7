@@ -20,13 +20,6 @@ class StaffController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            "name"         => "required|string",
-            "email"        => "required|email|unique:staff,email",
-            "password"     => "required|string|min:8",
-            "role"         => "required|string",
-            "phone_number" => "required|string|unique:staff,phone_number"
-        ]);
 
         $Staff = Staff::create($request->all()); // تصحيح اسم المتغير وحالة الأحرف
 
