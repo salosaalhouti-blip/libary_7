@@ -40,15 +40,7 @@ class StaffController extends Controller
     public function update(Request $request, string $id)
     {
         $staff = Staff::findOrFail($id);
-
-        $request->validate([
-            "name"         => "sometimes|required|string", // تصحيح =>
-            "email"        => "sometimes|required|email|unique:staff,email," . $staff->id,
-            "password"     => "sometimes|required|string|min:8", // تصحيح min:8
-            "role"         => "sometimes|required|string",
-            "phone_number" => "sometimes|required|string|unique:staff,phone_number," . $staff->id,
-        ]);
-
+            
         $staff->update($request->all());
 
         return response()->json($staff); // تصحيح return
