@@ -6,7 +6,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffauthController;
 
 
-Route::middlware("auth: sanctum")->group(function (){
+Route::middleware("auth:sanctum")->group(function (){
     Route::get("/staff", [StaffController::class, "index"]);
     Route::post("/staff", [StaffController::class, "store"]);
     Route::get("/staff/{id}",[StaffController::class, "show"]);
