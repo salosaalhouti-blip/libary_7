@@ -45,7 +45,7 @@ class StaffController extends Controller
             
         $staff->update($request->all());
 
-        return response()->json($staff); // تصحيح return
+        return StaffResource::make($staff); // تصحيح return
     }
 
     /**
