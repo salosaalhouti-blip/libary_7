@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Staff; // 1. تم إضافة استدعاء الموديل
-use Illuminate\Http\Request;
+use App\Http\Requests\StaffStoreRequest;
+use App\Http\Requests\StaffUpdataRequest;
+use App\Http\Resources\StaffResource;
 
 class StaffController extends Controller
 {
@@ -12,18 +14,18 @@ class StaffController extends Controller
      */
     public function index()
     {
-        return response()->json(Staff::all());
+        return StaffResource::collection(Staff::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StaffStoreRequest $request)
     {
 
-        $Staff = Staff::create($request->all()); // تصحيح اسم المتغير وحالة الأحرف
+        $Staff = Staff::create($request->all()); 
 
-        return response()->json($Staff);
+        return StaffResource::make($Staff);
     }
 
     /**
@@ -31,7 +33,7 @@ class StaffController extends Controller
      */
     public function show(string $id)
     {
-        return response()->json(Staff::findOrFail($id)); // تصحيح response و findOrFail
+        return StaffResource::make(Staff::findOrFail($id)); // تصحيح response و findOrFail
     }
 
     /**
