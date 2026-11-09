@@ -18,4 +18,4 @@ Route::middleware("auth:sanctum")->group(function (){
 });
 
 Route::post("/staff/login", [StaffAuthController::class, "login"]);
-Route::apiResourse("customer", App\Http\Controllers\CustomerController::class);
+Route::apiResource("customer", App\Http\Controllers\CustomerController::class);
