@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\staff;
 
 class staffseeder extends Seeder
 {
@@ -15,7 +16,7 @@ class staffseeder extends Seeder
         Staff::create([
             "name"=>"ali",
             "email"=>"ali2@gmail.com",
-            "password"=>bcrypt("12345678"),
+            "password"=>"12345678",
             "role"=>"admin",
             "phone_number"=>"1234567890"
         ]);

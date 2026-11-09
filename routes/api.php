@@ -12,10 +12,18 @@ Route::middleware("auth:sanctum")->group(function (){
     Route::get("/staff/{id}",[StaffController::class, "show"]);
     Route::put("/staff/{id}", [StaffController::class, "update"]);
     Route::delete("/staff/{id}", [StaffController::class, "destroy"]);
+
     Route::get("/staff-me",[StaffAuthController::class, "me"]);
     Route::post("/staff-logout" ,[StaffAuthController::class, "logoout"]);
 
 });
 
 Route::post("/staff/login", [StaffAuthController::class, "login"]);
-Route::apiResource("customer", App\Http\Controllers\CustomerController::class);
+Route::post("/customer/login", [CustomerAuthController::class, "login"]);
+
+Route::middleware("auth:sanctum")->group(function () {
+    Route::apiResource("customer", App\Http\Controllers\CustomerController::class);
+    Route::get("/customer-me", [CustomerAuthController::class, "me"]);
+    Route::post("/customer-logout", [CustomerAuthController::class, "logout"]);
+
+});
