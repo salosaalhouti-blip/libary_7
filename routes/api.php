@@ -29,7 +29,7 @@ Route::post("/staff/login", [StaffAuthController::class, "login"]);
 Route::post("/customer/login", [CustomerAuthController::class, "login"]);
 
 Route::middleware("auth:customer")->group(function () {
-    Route::apiResource("customer", App\Http\Controllers\CustomerController)->parameter("customer","customer");
+    Route::apiResource("Customer", App\Http\Controllers\CustomerController::class)->parameter("Customer","Customer");
     Route::get("/customer-me", [CustomerAuthController::class, "me"]);
     Route::post("/customer-logout", [CustomerAuthController::class, "logout"]);
 
