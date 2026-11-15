@@ -7,6 +7,7 @@ use App\Http\Controllers\StaffAuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\BookController;
 
 
 Route::middleware("auth:staff")->group(function (){
@@ -23,19 +24,27 @@ Route::middleware("auth:staff")->group(function (){
     Route::get("/staff-me",[StaffAuthController::class, "me"]);
     Route::post("/staff-logout" ,[StaffAuthController::class, "logoout"]);
 
+    Route::post("/Book", [BoonController::class, "store"]);
+    Route::put("/book/{/book}", [BookController::class, "update"]);
+    Route::delete("/book/{book}", [BookController::class, "destroy"]);
 });
+
 
 Route::post("/staff/login", [StaffAuthController::class, "login"]);
 Route::post("/customer/login", [CustomerAuthController::class, "login"]);
+
+
 
 Route::middleware("auth:customer")->group(function () {
     Route::apiResource("Customer", App\Http\Controllers\CustomerController::class)->parameter("Customer","Customer");
     Route::get("/customer-me", [CustomerAuthController::class, "me"]);
     Route::post("/customer-logout", [CustomerAuthController::class, "logout"]);
-
 });
+
 
 Route::middleware("auth:senctum")->group(function (){
     Route::get("/category", [CategoryController::class, "index"]);
     Route::get("/category/{category}", [CategoryController::class, "show"]);
+    Route::get("/book", [BookController::class, "index"]);
+    Route::get("/book/{book}", [BookController::class, "show"]);
 });
