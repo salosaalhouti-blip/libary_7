@@ -27,6 +27,10 @@ Route::middleware("auth:staff")->group(function (){
     Route::post("/book", [BookController::class, "store"]);
     Route::put("/book/{book}", [BookController::class, "update"]);
     Route::delete("/book/{book}", [BookController::class, "destroy"]);
+
+    Route::apiResource("customer", App\Http\Controllers\CustomerController::class)->parameter("customer","customer");
+
+    Route::put("/borrow", [borrowingsController::class, "markAsReturned"]);
 });
 
 
@@ -36,9 +40,13 @@ Route::post("/customer/login", [CustomerAuthController::class, "login"]);
 
 
 Route::middleware("auth:customer")->group(function () {
-    Route::apiResource("Customer", App\Http\Controllers\CustomerController::class)->parameter("Customer","Customer");
+    
     Route::get("/customer-me", [CustomerAuthController::class, "me"]);
     Route::post("/customer-logout", [CustomerAuthController::class, "logout"]);
+
+    Route::post("/borrow", [borrowingsController::class, "borrow"]);
+    Route::get("/borrow", [borrowingsController::class, "index"]);
+    Route::delete("/borrow/{id}", [borrowingsController::class, "destroy"]);
 });
 
 

@@ -19,4 +19,10 @@ class Book extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function customers()
+    {
+    return $this->belongsToMany(Customer::class, 'borrowings')
+        ->withPivot('borrowing_date', 'return_date', 'is_returned');
+    }
 }
