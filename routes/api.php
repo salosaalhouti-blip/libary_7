@@ -31,11 +31,16 @@ Route::middleware("auth:staff")->group(function (){
     Route::apiResource("customer", App\Http\Controllers\CustomerController::class)->parameter("customer","customer");
 
     Route::put("/borrow", [borrowingsController::class, "markAsReturned"]);
+
+    Route::get("/borrow/all", [borrowingsController::class, "all"]);
+
+    Route::get("/borrow/overdue", [borrowingsController::class, "overdue"]);
 });
 
 
 Route::post("/staff/login", [StaffAuthController::class, "login"]);
 Route::post("/customer/login", [CustomerAuthController::class, "login"]);
+Route::post("/customer/register", [CustomerAuthController::class, "register"]);
 
 
 

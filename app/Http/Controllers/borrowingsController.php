@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use App\Models\Book;
+use\App\Models\Borrowing;
 
 class borrowingsController extends Controller
 {
@@ -16,24 +18,50 @@ class borrowingsController extends Controller
 
     // طلب استعارة كتاب جديد من قبل العميل
     public function borrow(Request $request)
-    {
-        $data = $request->validate([
-            "book_id"        => ["required", "exists:books,id"],
-            "borrowing_date" => ["required", "date"],
-            "return_date"    => ["required", "date"]
-        ]);
+{
+    // المهمة 3: التحقق من صحة التواريخ
+    $data = $request->validate([
+        "book_id"        => ["required", "exists:books,id"],
+        "borrowing_date" => ["required", "date", "after_or_equal:today"],
+        "return_date"    => ["required", "date", "after:borrowing_date"]
+    ]);
 
-        $output = auth()->user()->books()->attach(
-            ["book_id" => $data["book_id"]],
-            [
-                "borrowing_date" => $data["borrowing_date"],
-                "return_date"    => $data["return_date"],
-                "is_returned"    => false
-            ]
-        );
+    // المهمة 4: التأكد أن الكتاب غير مستعار من شخص آخر في نفس التواريخ
+    $isTaken = Book::find($data["book_id"])->customers()
+        ->wherePivot("is_returned", false)
+        ->wherePivot("borrowing_date", "<=", $data["return_date"])
+        ->wherePivot("return_date", ">=", $data["borrowing_date"])
+        ->exists();
 
-        return response()->json(['data' => $output]);
+    if ($isTaken) {
+        return response()->json([
+            "message" => "This book is already borrowed on these dates"
+        ], 422);
     }
+
+    // المهمة 5: التأكد أن العميل ليس لديه 3 استعارات مفتوحة حالياً
+    $openCount = auth()->user()->books()
+        ->wherePivot("is_returned", false)
+        ->count();
+
+    if ($openCount >= 3) {
+        return response()->json([
+            "message" => "You cannot have more than 3 open borrowings at the same time"
+        ], 422);
+    }
+
+    // تنفيذ الاستعارة بعد اجتياز كل الشروط
+    auth()->user()->books()->attach(
+        $data["book_id"],
+        [
+            "borrowing_date" => $data["borrowing_date"],
+            "return_date"    => $data["return_date"],
+            "is_returned"    => false
+        ]
+    );
+
+    return response()->json(['message' => 'Book borrowed successfully'], 201);
+}
 
     // إلغاء/حذف سجل استعارة من قبل العميل
     public function destroy($id)
@@ -76,5 +104,15 @@ class borrowingsController extends Controller
             'book_id'        => $borrowing->id,
             'borrowing_date' => $borrowing->pivot->borrowing_date,
         ]);
+    }
+    public function all(Request $request)
+    {
+        $query = Borrowing::with(["customer", "book"]);
+
+        if ($request->has("is_returned")) {
+        $query->where("is_returned", $request->is_returned);
+    }
+
+    return response()->json($query->get());
     }
 }

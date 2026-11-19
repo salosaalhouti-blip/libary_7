@@ -42,4 +42,15 @@ class CustomerAuthController extends Controller
             'message' => 'Logged out successfully'
         ]);
     }
+
+    public function register(CustomerStoreRequest $request)
+    {
+    $customer = Customer::create($request->validated());
+    $token = $customer->createToken('login-token')->plainTextToken;
+
+    return response()->json([
+        'customer' => $customer,
+        'token'    => $token,
+    ], 201);
+    }
 }

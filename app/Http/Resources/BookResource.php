@@ -17,10 +17,12 @@ class BookResource extends JsonResource
         return [
             "id"=>$this->id,
             "name"=>$this->name,
+            "ISBN"=> $this->ISBN,
             "author"=>$this->author,
             "publisher"=>$this->publisher,
             "publish_date"=>$this->publish_date,
             "category"=>CtegoryResource::make($this->whenLoaded("category")),
+            "is_available" => !$this->customers()->wherePivot("is_returned", false)->exists(),
         ];
     }
 }
