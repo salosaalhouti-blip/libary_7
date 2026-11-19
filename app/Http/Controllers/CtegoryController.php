@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Requests\CtegoryStoreRequest;
-use App\Requests\CtegoryUpdateRequest;
-use App\Resources\CtegoryResource;
+use App\Http\Requests\CtegoryStoreRequest;
+use App\Http\Requests\CtegoryUpdateRequest;
+use App\Http\Resources\CtegoryResource;
 
 class CtegoryController extends Controller
 {
@@ -16,16 +16,16 @@ class CtegoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-        return CategoryResource::collection($categories);
+        return CtegoryResource::collection($categories);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CtegoryStoreRequest $request)
     {
         $category = Category::create($request->validated());
-        return CategoryResource::make($category);
+        return CtegoryResource::make($category);
     }
 
     /**
@@ -33,7 +33,7 @@ class CtegoryController extends Controller
      */
     public function show(Category $category)
     {
-        return new CategoryResource($category->load("books"));
+        return new CtegoryResource($category->load("books"));
     }
 
     /**
@@ -42,7 +42,7 @@ class CtegoryController extends Controller
     public function update(CategoryUpdateRequest $request, Category $category)
     {
         $category->update($request->validated());
-        return CategoryResource::make($category);
+        return CtegoryResource::make($category);
     }
 
     /**

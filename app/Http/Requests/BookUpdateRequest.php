@@ -28,7 +28,7 @@ class BookUpdateRequest extends FormRequest
             "author"=>"sometimes|string|max:255",
             "publish_date"=>"sometimes|date",
             "publisher"=>"sometimes|string|max:255",
-            "category_Id"=>"sometimes|exists:categories,id"
+            "category_id"=>"sometimes|exists:categories,id"
         ];
     }
 }

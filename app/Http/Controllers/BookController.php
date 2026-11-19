@@ -23,7 +23,7 @@ class BookController extends Controller
      */
     public function store(BookStoreRequest $request)
     {
-        $Book= book::create($request->validate());
+        $book= book::create($request->validated());
         return BookResource::make($book);
     }
 
@@ -32,7 +32,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return BookResource::make($book);
+        return BookResource::make($book->load("category"));
     }
 
     /**
@@ -40,7 +40,7 @@ class BookController extends Controller
      */
     public function update(BookUpdateRequest $request, Book $book)
     {
-        $book->update($request->validate());
+        $book->update($request->validated());
         return BookResource::make($book);
     }
 

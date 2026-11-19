@@ -20,7 +20,7 @@ class BookResource extends JsonResource
             "author"=>$this->author,
             "publisher"=>$this->publisher,
             "publish_date"=>$this->publish_date,
-            "category"=>CategoryResource::make($this->whenLoaded("category")),
+            "category"=>CtegoryResource::make($this->whenLoaded("category")),
         ];
     }
 }

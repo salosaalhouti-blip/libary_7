@@ -6,7 +6,7 @@ use App\Http\Controllers\StaffController;
 use App\Http\Controllers\StaffAuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerAuthController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CtegoryController;
 use App\Http\Controllers\BookController;
 
 
@@ -17,15 +17,15 @@ Route::middleware("auth:staff")->group(function (){
     Route::put("/staff/{id}", [StaffController::class, "update"]);
     Route::delete("/staff/{id}", [StaffController::class, "destroy"]);
 
-    Route::post("/category", [CategoryController::class, "store"]);
-    Route::put("/category/{category}", [CategoryController::class, "update"]);
-    Route::delete("/category/{category}", [CategoryController::class, "destroy"]);
+    Route::post("/category", [CtegoryController::class, "store"]);
+    Route::put("/category/{category}", [CtegoryController::class, "update"]);
+    Route::delete("/category/{category}", [CtegoryController::class, "destroy"]);
 
     Route::get("/staff-me",[StaffAuthController::class, "me"]);
     Route::post("/staff-logout" ,[StaffAuthController::class, "logoout"]);
 
-    Route::post("/Book", [BoonController::class, "store"]);
-    Route::put("/book/{/book}", [BookController::class, "update"]);
+    Route::post("/book", [BookController::class, "store"]);
+    Route::put("/book/{book}", [BookController::class, "update"]);
     Route::delete("/book/{book}", [BookController::class, "destroy"]);
 });
 
@@ -42,9 +42,9 @@ Route::middleware("auth:customer")->group(function () {
 });
 
 
-Route::middleware("auth:senctum")->group(function (){
-    Route::get("/category", [CategoryController::class, "index"]);
-    Route::get("/category/{category}", [CategoryController::class, "show"]);
+Route::middleware("auth:sanctum")->group(function (){
+    Route::get("/category", [CtegoryController::class, "index"]);
+    Route::get("/category/{category}", [CtegoryController::class, "show"]);
     Route::get("/book", [BookController::class, "index"]);
     Route::get("/book/{book}", [BookController::class, "show"]);
 });
