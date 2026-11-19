@@ -115,4 +115,14 @@ class borrowingsController extends Controller
 
     return response()->json($query->get());
     }
+
+    public function overdue()
+    {
+        $late = Borrowing::with(["customer", "book"])
+            ->where("is_returned", false)
+            ->where("return_date", "<", now()->toDateString())
+            ->get();
+
+    return response()->json($late);
+    }
 }
