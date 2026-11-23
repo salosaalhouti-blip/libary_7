@@ -6,6 +6,7 @@ use App\Models\Customer;
 use Illuminate\Http\Request;
 use App\Models\Book;
 use App\Models\Borrowing;
+use App\Requests\borrowingRequest;
 
 class borrowingsController extends Controller
 {
@@ -17,13 +18,11 @@ class borrowingsController extends Controller
     }
 
     // طلب استعارة كتاب جديد من قبل العميل
-    public function borrow(Request $request)
+    public function borrow(borrowingRequest $request)
 {
     // المهمة 3: التحقق من صحة التواريخ
     $data = $request->validate([
-        "book_id"        => ["required", "exists:books,id"],
-        "borrowing_date" => ["required", "date", "after_or_equal:today"],
-        "return_date"    => ["required", "date", "after:borrowing_date"]
+        
     ]);
 
     // المهمة 4: التأكد أن الكتاب غير مستعار من شخص آخر في نفس التواريخ
