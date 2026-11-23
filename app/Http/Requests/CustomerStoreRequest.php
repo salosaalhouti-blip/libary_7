@@ -24,7 +24,7 @@ class CustomerStoreRequest extends FormRequest
     {
         return [
             'name'=>'Required|string|max:255',
-            'phone_number'=>'Required|string|max:10|unique:customer, phone_number',
+            'phone_number'=>'Required|string|max:10|unique:customers, phone_number',
             'password'=>'Required|string|min:8',
             'address'=>'required|string|max:255',
         ];

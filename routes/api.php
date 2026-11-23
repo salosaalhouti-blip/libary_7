@@ -8,6 +8,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\CustomerAuthController;
 use App\Http\Controllers\CtegoryController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\BorrowingsController;
 
 
 Route::middleware("auth:staff")->group(function (){
